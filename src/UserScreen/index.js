@@ -2,6 +2,9 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Button, FormInput, FormLabel, FormValidationMessage } from 'react-native-elements';
 import FullPageSpinner from '../common/FullPageSpinner';
+import UserService from './user-service';
+
+const userId = '59f6b1ae4605bd002c597eff';
 
 export default class UserScreen extends React.Component {
   static navigationOptions = {
@@ -17,7 +20,7 @@ export default class UserScreen extends React.Component {
       fullName: '',
       userNameError: '',
       isDirty: false,
-      isLoading: false
+      isLoading: true
     };
 
     this.userNameChanged = this.userNameChanged.bind(this);
@@ -26,7 +29,18 @@ export default class UserScreen extends React.Component {
   }
 
   componentDidMount() {
-
+    // Load the user's data from storage.
+    UserService.getUserById(userId)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          id: data.id,
+          userName: data.userName,
+          fullName: data.fullName,
+          isLoading: false
+        });
+      })
+      .catch(error => console.error(error));
   }
 
   userNameChanged(value) {
@@ -56,6 +70,7 @@ export default class UserScreen extends React.Component {
         <FormLabel>User Name</FormLabel>
         <FormInput
           placeholder="Specify a user name"
+          value={this.state.userName}
           onChangeText={this.userNameChanged}
         />
         {
@@ -66,6 +81,7 @@ export default class UserScreen extends React.Component {
         <FormLabel>Full Name</FormLabel>
         <FormInput
           placeholder="Specify your full name (Optional)"
+          value={this.state.fullName}
           onChangeText={this.fullNameChanged}
         />
         <Button

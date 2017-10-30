@@ -1,13 +1,13 @@
 import ServiceBase from '../common/service-base';
 
 export default class UserService extends ServiceBase {
+
+    static getAllUsers() {
+        return super.get('api/users');
+    }
+
     static getUserById(id) {
-        const base = super.getBaseUri();
-        const url = `${base}/api/users/${id}`;
-        return fetch({
-            method: 'get',
-            url: url
-        });
+        return super.get(`/api/users/${id}`);
     }
 
     static getUserByUserName(userName) {
