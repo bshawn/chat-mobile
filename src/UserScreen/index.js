@@ -3,8 +3,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Button, FormInput, FormLabel, FormValidationMessage } from 'react-native-elements';
 import FullPageSpinner from '../common/FullPageSpinner';
 import UserService from './user-service';
-
-const userId = '59f6b1ae4605bd002c597eff';
+import UserStorage from './user-storage';
 
 export default class UserScreen extends React.Component {
   static navigationOptions = {
@@ -31,13 +30,25 @@ export default class UserScreen extends React.Component {
 
   componentDidMount() {
     // Load the user's data from storage.
-    UserService.getUserById(userId)
-      .then(response => response.json())
-      .then(data => {
+    UserStorage.getAppUser()
+      .then(userId => {
+        console.log('userId', userId);
+        if (!userId) {
+          return Promise.resolve(userId);
+        } else {
+          return UserService.getUserById(userId)
+            .then(response => response.json())
+            .then(data => {
+              this.setState({
+                id: data.id,
+                userName: data.userName,
+                fullName: data.fullName
+              });
+            });
+        }
+      })
+      .then(() => {
         this.setState({
-          id: data.id,
-          userName: data.userName,
-          fullName: data.fullName,
           isLoading: false,
           screenError: '',
           userError: '',
@@ -88,6 +99,9 @@ export default class UserScreen extends React.Component {
           screenError: '',
           userError: ''
         });
+
+        // Update storage
+        return UserStorage.saveAppUser(data);
       })
       .catch(error => {
         console.log(error);
