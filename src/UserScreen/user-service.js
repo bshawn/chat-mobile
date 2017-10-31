@@ -10,15 +10,11 @@ export default class UserService extends ServiceBase {
         return super.get(`/api/users/${id}`);
     }
 
-    static getUserByUserName(userName) {
-
-    }
-
     static createUser(user) {
-
+        return super.post(`/api/users`, user);
     }
 
     static updateUser(user) {
-
+        return super.put(`/api/users/${user.id}`, user);
     }
 }
