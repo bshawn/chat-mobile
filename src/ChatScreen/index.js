@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
+import ChatService from './chat-service';
 
 export default class ChatScreen extends React.Component {
   static navigationOptions = {
@@ -17,20 +18,34 @@ export default class ChatScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      messages: [
-        {
-          _id: 'abcdef1234',
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            _id: 'abcdef12456',
-            name: 'React Native',
-            avatar: 'https://facebook.github.io/react/img/logo_og.png',
-          },
-        },
-      ]
-    });
+    this.loadMessages();
+  }
+
+  loadMessages() {
+    ChatService.getAllMessages()
+      .then(() => Promise.reject('An unexpected error occurred'))
+      .then(response => response.json())
+      .then((data) => {
+        // console.log('data', data);
+        return data.map(message => {
+          return {
+            _id: message.id,
+            createdAd: message.timeStamp,
+            text: message.text,
+            user: {
+              _id: message.senderId
+            }
+          };
+        });
+      })
+      .then(messages => this.setState({ messages: messages }))
+      .catch(error => {
+        this.onSend([{
+          _id: 'system',
+          text: error,
+          system: true
+        }]);
+      });
   }
 
   onSend(messages = []) {
