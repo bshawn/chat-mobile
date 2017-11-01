@@ -56,7 +56,7 @@ export default class UserScreen extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        console.log('Error loading user', error);
         this.setState({
           isLoading: false,
           screenError: error
@@ -104,10 +104,10 @@ export default class UserScreen extends React.Component {
         return UserStorage.saveAppUser(data);
       })
       .catch(error => {
-        console.log(error);
+        console.log('Error saving user', error);
         this.setState({
           isLoading: false,
-          screenError: error
+          screenError: error.toString()
         });
       });
   }

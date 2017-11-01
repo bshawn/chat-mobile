@@ -1,7 +1,11 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat'
-import ChatService from '../common/chat-service';
+import { GiftedChat } from 'react-native-gifted-chat';
+import MessageService from '../common/message-service';
+
+const user = {
+  id: '59f9d8701484d3002660db6f'
+};
 
 export default class ChatScreen extends React.Component {
   static navigationOptions = {
@@ -22,14 +26,15 @@ export default class ChatScreen extends React.Component {
   }
 
   loadMessages() {
-    ChatService.getAllMessages()
+    MessageService.getAllMessages()
       .then(response => response.json())
       .then((data) => {
         // console.log('data', data);
+
         return data.map(message => {
           return {
             _id: message.id,
-            createdAd: message.timeStamp,
+            createdAt: message.timestamp,
             text: message.text,
             user: {
               _id: message.senderId
@@ -39,15 +44,33 @@ export default class ChatScreen extends React.Component {
       })
       .then(messages => this.setState({ messages: messages }))
       .catch(error => {
+        console.log('Error loading messages', error);
         this.sendMessages([{
           _id: 'system',
-          text: error,
+          text: error.toString(),
           system: true
         }]);
       });
   }
 
   sendMessages(messages = []) {
+    let seed = {
+      text: '',
+      timestamp: new Date(),
+      senderId: user.id
+    };
+
+    const message = messages.reduce((agg, m, i) => {
+      let line = i !== 0 ? '\n' + m.text : m.text;
+      agg.text += line
+      return agg;
+    }, seed);
+
+    MessageService.sendMessage(message)
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.log('Error sending message', error));
+
     this.setState((previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }));
@@ -63,7 +86,7 @@ export default class ChatScreen extends React.Component {
         messages={this.state.messages}
         onSend={this.onSend}
         user={{
-          _id: 'abcdef12455'
+          _id: user.id
         }}
       />
     );
