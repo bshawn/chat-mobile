@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
-import ChatService from './chat-service';
+import ChatService from '../common/chat-service';
 
 export default class ChatScreen extends React.Component {
   static navigationOptions = {

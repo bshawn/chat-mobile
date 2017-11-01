@@ -2,8 +2,8 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Button, FormInput, FormLabel, FormValidationMessage } from 'react-native-elements';
 import FullPageSpinner from '../common/FullPageSpinner';
-import UserService from './user-service';
-import UserStorage from './user-storage';
+import UserService from '../common/user-service';
+import UserStorage from '../common/user-storage';
 
 export default class UserScreen extends React.Component {
   static navigationOptions = {
