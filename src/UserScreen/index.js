@@ -59,7 +59,7 @@ export default class UserScreen extends React.Component {
         console.log('Error loading user', error);
         this.setState({
           isLoading: false,
-          screenError: error
+          screenError: error.toString()
         });
       });
   }
