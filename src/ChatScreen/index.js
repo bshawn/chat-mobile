@@ -23,7 +23,6 @@ export default class ChatScreen extends React.Component {
 
   loadMessages() {
     ChatService.getAllMessages()
-      .then(() => Promise.reject('An unexpected error occurred'))
       .then(response => response.json())
       .then((data) => {
         // console.log('data', data);
@@ -40,7 +39,7 @@ export default class ChatScreen extends React.Component {
       })
       .then(messages => this.setState({ messages: messages }))
       .catch(error => {
-        this.onSend([{
+        this.sendMessages([{
           _id: 'system',
           text: error,
           system: true
@@ -48,10 +47,14 @@ export default class ChatScreen extends React.Component {
       });
   }
 
-  onSend(messages = []) {
+  sendMessages(messages = []) {
     this.setState((previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }));
+  }
+
+  onSend(messages = []) {
+    this.sendMessages(messages);
   }
 
   render() {
