@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -37,8 +37,32 @@ class ChatScreen extends React.Component {
   }
 }
 
-export default App = StackNavigator({
+class UserScreen extends React.Component {
+  static navigationOptions = {
+    title: 'User'
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>This is a user screen</Text>
+      </View>
+    );
+  }
+}
+
+const MainScreenNavigator = TabNavigator({
   Home: { screen: HomeScreen },
+  User: { screen: UserScreen }
+});
+
+export default App = StackNavigator({
+  Home: {
+    screen: MainScreenNavigator,
+    navigationOptions: {
+      title: 'Chat Mobile Demo'
+    }
+  },
   Chat: { screen: ChatScreen }
 });
 
