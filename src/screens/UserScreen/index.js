@@ -58,6 +58,7 @@ export default class UserScreen extends React.Component {
           message: msg
         });
       })
+      .then(() => this.props.navigation.navigate('Home'))
       .catch(error => {
         const msg = `Error saving user: ${error}`;
         console.log(msg);
