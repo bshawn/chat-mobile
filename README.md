@@ -40,8 +40,8 @@ npm install
 **In some cases, it may be necessary to delete the node_modules and .expo folders prior to installing packages.**
 
 ## Resources
-[http://www.reactnativeexpress.com](http://www.reactnativeexpress.com)
-[https://github.com/react-community/create-react-native-app](https://github.com/react-community/create-react-native-app)
-[https://reactnavigation.org](https://reactnavigation.org)
-[https://react-native-training.github.io/react-native-elements](https://react-native-training.github.io/react-native-elements)
+- [http://www.reactnativeexpress.com](http://www.reactnativeexpress.com)
+- [https://github.com/react-community/create-react-native-app](https://github.com/react-community/create-react-native-app)
+- [https://reactnavigation.org](https://reactnavigation.org)
+- [https://react-native-training.github.io/react-native-elements](https://react-native-training.github.io/react-native-elements)
 
