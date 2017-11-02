@@ -69,7 +69,7 @@ export default class ChatScreen extends React.Component {
         messages={this.state.messages}
         onSend={(messages) => this.onSend(messages)}
         user={{
-          _id: appUser.Id
+          _id: appUser.id
         }}
       />
     );
