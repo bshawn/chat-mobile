@@ -33,6 +33,8 @@ export default class App extends React.Component {
         fullName: ''
       }
     };
+
+    this.onAppUserChanged = this.onAppUserChanged.bind(this);
   }
 
   componentDidMount() {
@@ -44,9 +46,20 @@ export default class App extends React.Component {
       .catch(error => console.log('Error loading user from storage', error));
   }
 
+  onAppUserChanged(user) {
+    if (user) {
+      this.setState({
+        user: user
+      }, () => UserStorage.saveAppUser(this.state.user));
+    }
+  }
+
   render() {
     return (
-      <AppNavigator screenProps={{ appUser: this.state.user }} />
+      <AppNavigator screenProps={{
+        appUser: this.state.user,
+        appUserChanged: this.onAppUserChanged
+      }} />
     );
   }
 }
