@@ -2,6 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 
+import UserService from '../../data/user-service';
+
 export default class UserScreen extends React.Component {
   static navigationOptions = {
     title: 'User'
@@ -13,7 +15,8 @@ export default class UserScreen extends React.Component {
     this.state = {
       id: '',
       userName: '',
-      fullName: ''
+      fullName: '',
+      message: ''
     };
 
     this.onUserNameChanged = this.onUserNameChanged.bind(this);
@@ -34,7 +37,39 @@ export default class UserScreen extends React.Component {
   }
 
   onSavePressed() {
-    console.log('Save pressed!');
+    const user = this.packageUser();
+    UserService.createUser(user)
+      .then(response => response.json())
+      .then(data => {
+        this.updateUserState(data);
+      })
+      .catch(error => {
+        const msg = `Error saving user: ${error}`;
+        console.log(msg);
+        this.setState({
+          message: msg
+        });
+      });
+  }
+
+  packageUser() {
+    return {
+      id: this.state.id,
+      userName: this.state.userName,
+      fullName: this.state.fullName
+    };
+  }
+
+  updateUserState(user) {
+    this.setState({
+      id: user.id,
+      userName: user.userName,
+      fullName: user.fullName
+    }, () => {
+      const msg = `User ${this.state.id} saved successfully!`;
+      console.log(msg, this.state);
+      this.setState({ message: msg });
+    });
   }
 
   render() {
@@ -55,6 +90,7 @@ export default class UserScreen extends React.Component {
           onPress={this.onSavePressed}
         />
         <FormValidationMessage>
+          {this.state.message}
         </FormValidationMessage>
       </View>
     );
