@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
-import styles from '../styles';
 
 export default class UserScreen extends React.Component {
   static navigationOptions = {
@@ -19,6 +18,7 @@ export default class UserScreen extends React.Component {
 
     this.onUserNameChanged = this.onUserNameChanged.bind(this);
     this.onFullNameChanged = this.onFullNameChanged.bind(this);
+    this.onSavePressed = this.onSavePressed.bind(this);
   }
 
   onUserNameChanged(value) {
@@ -33,6 +33,10 @@ export default class UserScreen extends React.Component {
     });
   }
 
+  onSavePressed() {
+    console.log('Save pressed!');
+  }
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -41,7 +45,6 @@ export default class UserScreen extends React.Component {
           placeholder="Enter a user name"
           onChangeText={this.onUserNameChanged}
         />
-
         <FormLabel>Full Name</FormLabel>
         <FormInput
           placeholder="Enter first and last name (optional)"
@@ -49,6 +52,7 @@ export default class UserScreen extends React.Component {
         />
         <Button
           title="Save"
+          onPress={this.onSavePressed}
         />
         <FormValidationMessage>
         </FormValidationMessage>
