@@ -38,14 +38,15 @@ export default class UserScreen extends React.Component {
 
   onSavePressed() {
     const user = this.packageUser();
-    UserService.createUser(user)
+    const save = !user.id ? UserService.createUser : UserService.updateUser;
+    save(user)
       .then(response => response.json())
       .then(data => {
         this.updateUserState(data);
       })
       .catch(error => {
         const msg = `Error saving user: ${error}`;
-        console.log(msg);
+        console.log(msg, this.state);
         this.setState({
           message: msg
         });
