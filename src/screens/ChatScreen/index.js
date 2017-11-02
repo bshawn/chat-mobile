@@ -15,10 +15,16 @@ export default class ChatScreen extends React.Component {
     this.state = {
       messages: []
     };
+    this.timer = null;
   }
 
   componentWillMount() {
     this.loadMessages();
+    this.timer = setInterval(() => this.loadMessages(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   loadMessages() {
