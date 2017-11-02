@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 
 import UserService from '../../data/user-service';
+import UserStorage from '../../data/user-storage';
 
 export default class UserScreen extends React.Component {
   static navigationOptions = {
@@ -43,6 +44,12 @@ export default class UserScreen extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.updateUserState(data);
+      })
+      .then(() => {
+        const user = this.packageUser();
+        UserStorage.saveAppUser(user)
+          .then(() => UserStorage.getAppUser())
+          .then(user => console.log(user));
       })
       .catch(error => {
         const msg = `Error saving user: ${error}`;
