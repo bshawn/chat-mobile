@@ -69,7 +69,7 @@ export default class UserScreen extends React.Component {
   }
 
   render() {
-    const appUser = this.props.screenProps.appUser;
+    const appUser = this.props.screenProps.appUser || {};
 
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
