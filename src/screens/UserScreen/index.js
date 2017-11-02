@@ -12,7 +12,7 @@ export default class UserScreen extends React.Component {
 
   constructor(props) {
     super(props);
-
+    console.log('UserScreen props', props);
     this.state = {
       id: '',
       userName: '',
